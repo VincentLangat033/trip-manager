@@ -7,7 +7,11 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
+      - echo "Making gradlew executable..."
+      - ls -l gradlew
       - chmod +x gradlew
+      - ls -l gradlew # List file permissions to confirm executable bit is set
+      - if [ -x ./gradlew ]; then echo "gradlew is now executable"; else echo "gradlew is NOT executable"; exit 1; fi
       - aws --version
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin 975050214707.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       - REPOSITORY_URI=975050214707.dkr.ecr.eu-north-1.amazonaws.com/devops/tripmgmtdemo
